@@ -1,26 +1,42 @@
-const path = require('path');
-const HtmlWebpackPlugin = require('html-webpack-plugin');
+const path = require("path");
+const HtmlWebpackPlugin = require("html-webpack-plugin");
 
 module.exports = {
   mode: "development",
   entry: {
     index: "./source/index.js",
-    about: "./source/about.js",
+    about: "./source/about.js"
   },
-  output: { 
+  output: {
+    filename: "[name]_bundle.js",
+    chunkFilename: '[name].bundle.js',
     path: path.resolve(__dirname, "public"),
-    filename: "[name]_bundle.js",    
   },
-  module : {
+  module: {
     rules: [
       {
         test: /\.css$/,
         use: [
-          'style-loader',
-          'css-loader', // 뒤에서부터 실행. 체이닝. 불러와서 -> 끼워넣는다
+          "style-loader",
+          "css-loader" // 뒤에서부터 실행. 체이닝. 불러와서 -> 끼워넣는다
         ]
       },
-    ],
+      {
+        test: /\.(png|svg|jpg|gif)$/,
+        use: ["file-loader"]
+      },
+      {
+        test: /\.m?js&/,
+        exclude: /(node_modules|bower_components)/,
+        use: {
+          loader: "babel-loader",
+          options: {
+            presets: ["@babel/preset-env"],
+            cacheDirectory: true
+          }
+        }
+      }
+    ]
   },
   plugins: [
     new HtmlWebpackPlugin({
@@ -32,6 +48,7 @@ module.exports = {
       filename: "about.html",
       template: "./source/about.html",
       chunks: ["about"]
-    }),
-  ]
+    })
+  ],
+  
 };

@@ -1,6 +1,19 @@
-import hello_word from "./hello.js";
-import world_word from "./world.js";
 import "./style.css";
 
 const root = document.querySelector("#root");
-root.innerHTML = hello_word + " " + world_word;
+
+
+async function getComponent() {
+  try {
+    const { default: hello_word } = await import('./hello.js');
+    const { default: word_hello } = await import ('./world.js');
+    return hello_word + " " + word_hello;
+  } catch (err) {
+    console.error(err);
+  }
+  
+}
+
+getComponent().then(word => {
+  root.innerHTML = word;
+});

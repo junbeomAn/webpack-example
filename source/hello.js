@@ -1,3 +1,3 @@
-var word = 'Hello';
+let word = 'Hello';
 
 export default word;

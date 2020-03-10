@@ -1,2 +1,2 @@
-var word = "World";
+let word = "World";
 export default word;
