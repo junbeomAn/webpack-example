@@ -38,3 +38,6 @@
   webpack.config.prod.js 와 같이 파일 이름 포함하여 실행.
 
   npx webpack --watch를 통해 파일이 바뀔 때마다 webpack 작업을 수행할 수 있게 한다.
+  
+
+ - webpack-dev-server --open 으로 HMR(Hot Module Replacement)를 실행할 수 있다.

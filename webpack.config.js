@@ -1,24 +1,31 @@
 const path = require("path");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 
 module.exports = {
   mode: "development",
   entry: {
-    index: "./source/index.js",
-    about: "./source/about.js"
+    index: ['@babel/polyfill', "./source/index.js"],
+    about: ['@babel/polyfill',"./source/about.js"],
   },
   output: {
     filename: "[name]_bundle.js",
     chunkFilename: '[name].bundle.js',
     path: path.resolve(__dirname, "public"),
   },
+  devtool: 'inline-source-map', // error를 bundle된 파일이 아닌 원래 파일에서 표시해주는 dev tool
+  devServer: {
+    contentBase: path.resolve(__dirname, "public"),
+    hot: true,
+  },
   module: {
     rules: [
-      {
-        test: /\.css$/,
+      { // HMR과 함께 쓰면 css도 hot reload.
+        test: /\.s[ac]ss$/,
         use: [
-          "style-loader",
-          "css-loader" // 뒤에서부터 실행. 체이닝. 불러와서 -> 끼워넣는다
+          MiniCssExtractPlugin.loader,
+          "css-loader", // 뒤에서부터 실행. 체이닝. 불러와서 -> 끼워넣는다
+          "sass-loader",
         ]
       },
       {
@@ -48,7 +55,8 @@ module.exports = {
       filename: "about.html",
       template: "./source/about.html",
       chunks: ["about"]
-    })
+    }),
+    new MiniCssExtractPlugin({ filename:'css/style.css' }),
   ],
   
 };

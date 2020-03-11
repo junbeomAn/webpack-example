@@ -1,0 +1,9 @@
+$gold: gold;
+$body-bg: powderblue;
+body {
+  background-color: $body-bg;
+  color: $gold;
+  #root {
+    color: tomato;
+  }
+}
